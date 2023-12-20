@@ -3,65 +3,93 @@
 <head>
   <title>Image Gallery with Sound</title>
   <style>
-    .gallery {
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
+    }
+    .gallery {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
     }
     .gallery-item {
-      margin: 10px;
+      width: calc(50% - 10px); /* Adjust gap width here */
+      height: 100vh;
       position: relative;
-      text-align: center;
+      overflow: hidden;
+      margin: 0 5px; /* Adjust gap width here */
     }
     .gallery-item img {
-      width: 300px; /* Adjust image size as needed */
-      height: 200px; /* Adjust image size as needed */
-      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .play-button {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: #fff;
-      border: 2px solid #000;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 15px solid white;
       cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      transition: opacity 0.3s ease; /* Added transition */
+    }
+    .play-button.playing {
+      opacity: 0; /* Hide the play button when music is playing */
     }
   </style>
 </head>
 <body>
-
-<h1>Image Gallery with Sound</h1>
-
-<div class="gallery">
-  <div class="gallery-item">
-    <img src="Bird.jpg" alt="Image 1">
-    <audio id="birds" src="birds.mp3" preload="auto"></audio>
-    <div class="play-button" onclick="playAudio('audio1')">▶️</div>
+  <div class="gallery">
+    <div class="gallery-item">
+      <img src="Bird.jpg" alt="Image 1">
+      <audio id="audio1" src="birds.mp3" preload="auto" onplay="handlePlay('play-button1')" onpause="handlePause('play-button1')"></audio>
+      <div class="play-button" onclick="playAudio('audio1')" id="play-button1"></div>
+    </div>
+    <div class="gallery-item">
+      <img src="Fountain .jpg" alt="Image 2">
+      <audio id="audio2" src="waterfalls.mp3" preload="auto" onplay="handlePlay('play-button2')" onpause="handlePause('play-button2')"></audio>
+      <div class="play-button" onclick="playAudio('audio2')" id="play-button2"></div>
+    </div>
   </div>
 
-  <div class="gallery-item">
-    <img src="Fountain .jpg" alt="Image 2">
-    <audio id="audio2" src="waterfalls.mp3" preload="auto"></audio>
-    <div class="play-button" onclick="playAudio('audio2')">▶️</div>
-  </div>
+  <script>
+    var currentAudio = null;
 
-  <!-- Add more gallery items with images and audio -->
-</div>
+    function playAudio(audioId) {
+      var audio = document.getElementById(audioId);
+      if (currentAudio && currentAudio !== audio) {
+        currentAudio.pause();
+      }
+      if (audio.paused) {
+        audio.play();
+        currentAudio = audio;
+      } else {
+        audio.pause();
+        currentAudio = null;
+      }
+    }
 
-<script>
-  function playAudio(audioId) {
-    var audio = document.getElementById(audioId);
-    audio.play();
-  }
-</script>
+    function handlePlay(buttonId) {
+      var button = document.getElementById(buttonId);
+      button.classList.add('playing');
+    }
 
+    function handlePause(buttonId) {
+      var button = document.getElementById(buttonId);
+      button.classList.remove('playing');
+    }
+  </script>
 </body>
 </html>
+
+
