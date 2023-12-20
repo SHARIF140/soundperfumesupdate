@@ -14,53 +14,68 @@
     }
     .gallery {
       display: flex;
-      flex-direction: column; /* Adjusted to column layout */
-      justify-content: space-between; /* Position images at top and bottom */
+      justify-content: center;
       align-items: center;
-      height: 100%; /* Ensure full height */
+      position: relative;
     }
     .gallery-item {
-      width: 100%;
-      height: 45vh; /* Adjusted height for each image */
+      width: calc(50% - 10px); /* Adjust gap width here */
+      height: 100vh;
       position: relative;
       overflow: hidden;
+      margin: 0 5px; /* Adjust gap width here */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
     }
     .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      max-width: 100%;
+      max-height: 50vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
     }
     .play-button {
+      width: 60px; /* Adjust button width */
+      height: 60px; /* Adjust button height */
+      cursor: pointer;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 60px; /* Adjust button width */
-      height: 60px; /* Adjust button height */
-      cursor: pointer;
-      border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.7);
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
     .play-button.playing {
       opacity: 0; /* Hide the play button when music is playing */
     }
+    .play-button::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-top: 15px solid transparent;
+      border-bottom: 15px solid transparent;
+      border-left: 25px solid white; /* Adjust triangle size */
+      transform: translate(-40%, -50%);
+    }
 
     /* Media query for mobile devices */
     @media screen and (max-width: 768px) {
-      .gallery {
-        flex-direction: column;
-        height: auto;
-      }
       .gallery-item {
         width: 100%;
-        height: 50vh; /* Adjusted height for each image in mobile view */
+        height: auto;
+        margin: 5px 0; /* Adjust gap width here */
       }
       .play-button {
         width: 80px; /* Adjust button width for mobile */
         height: 80px; /* Adjust button height for mobile */
+      }
+      .play-button::before {
+        border-top: 25px solid transparent;
+        border-bottom: 25px solid transparent;
+        border-left: 40px solid white; /* Adjust triangle size for mobile */
       }
     }
   </style>
@@ -108,5 +123,4 @@
   </script>
 </body>
 </html>
-
 
