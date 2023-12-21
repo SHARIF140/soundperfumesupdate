@@ -2,104 +2,125 @@
 <html>
 <head>
   <title>SoundPerfumes</title>
+	<link rel="icon" href="Bird.jpg" type="image/jpeg"> <!-- Replace "favicon.jpg" with your JPG file -->
   <style>
     body {
       margin: 0;
       padding: 0;
       height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       overflow: hidden;
+      font-family: 'Futura', sans-serif; /* Use 'Futura' font */
     }
     .gallery {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      position: relative;
+      height: 100%;
+    }
+    .gallery-heading {
+      color: black; /* Set heading color to black */
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
     }
     .gallery-item {
-      width: calc(50% - 10px); /* Adjust gap width here */
-      height: 100vh;
+      width: 100%;
+      height: 45vh;
       position: relative;
       overflow: hidden;
-      margin: 0 5px; /* Adjust gap width here */
+      margin-bottom: 20px; /* Adjust spacing between gallery items */
     }
     .gallery-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-    .play-button {
+    .play-button,
+    .pause-button {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 0;
-      height: 0;
-      border-top: 10px solid transparent;
-      border-bottom: 10px solid transparent;
-      border-left: 15px solid white;
+      width: 60px;
+      height: 60px;
       cursor: pointer;
-      transition: opacity 0.3s ease; /* Added transition */
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.3s ease;
     }
-    .play-button.playing {
-      opacity: 0; /* Hide the play button when music is playing */
+    .play-button.show,
+    .pause-button.show {
+      display: flex;
+    }
+    .play-button.hide,
+    .pause-button.hide {
+      display: none;
     }
 
-    /* Media query for mobile view */
-    @media (max-width: 768px) {
+    /* Media query for mobile devices */
+    @media screen and (max-width: 768px) {
       .gallery {
         flex-direction: column;
+        height: auto;
       }
       .gallery-item {
         width: 100%;
-        height: 50vh; /* Adjust height as needed */
-        margin: 5px 0; /* Adjust gap width here */
+        height: 50vh;
+      }
+      .play-button,
+      .pause-button {
+        width: 80px;
+        height: 80px;
       }
     }
   </style>
 </head>
 <body>
+  <h2 class="gallery-heading">SoundPerfumes</h2>
   <div class="gallery">
     <div class="gallery-item">
       <img src="Bird.jpg" alt="Image 1">
-      <audio id="audio1" src="birds.mp3" preload="auto" onplay="handlePlay('play-button1')" onpause="handlePause('play-button1')"></audio>
-      <div class="play-button" onclick="playAudio('audio1')" id="play-button1"></div>
+      <audio id="audio1" src="birds.mp3" preload="auto"></audio>
+      <div class="play-button play-button1 show" onclick="toggleAudio('audio1', 'play-button1', 'pause-button1')">&#9654;</div>
+      <div class="pause-button pause-button1 hide" onclick="toggleAudio('audio1', 'play-button1', 'pause-button1')">&#9612;&#9612;</div>
     </div>
     <div class="gallery-item">
       <img src="Fountain .jpg" alt="Image 2">
-      <audio id="audio2" src="waterfalls.mp3" preload="auto" onplay="handlePlay('play-button2')" onpause="handlePause('play-button2')"></audio>
-      <div class="play-button" onclick="playAudio('audio2')" id="play-button2"></div>
+      <audio id="audio2" src="waterfalls.mp3" preload="auto"></audio>
+      <div class="play-button play-button2 show" onclick="toggleAudio('audio2', 'play-button2', 'pause-button2')">&#9654;</div>
+      <div class="pause-button pause-button2 hide" onclick="toggleAudio('audio2', 'play-button2', 'pause-button2')">&#9612;&#9612;</div>
     </div>
   </div>
 
   <script>
-    var currentAudio = null;
-
-    function playAudio(audioId) {
+    function toggleAudio(audioId, playButtonClass, pauseButtonClass) {
       var audio = document.getElementById(audioId);
-      if (currentAudio && currentAudio !== audio) {
-        currentAudio.pause();
-      }
+      var playButton = document.querySelector('.' + playButtonClass);
+      var pauseButton = document.querySelector('.' + pauseButtonClass);
+
       if (audio.paused) {
         audio.play();
-        currentAudio = audio;
+        playButton.classList.remove('show');
+        playButton.classList.add('hide');
+        pauseButton.classList.remove('hide');
+        pauseButton.classList.add('show');
       } else {
         audio.pause();
-        currentAudio = null;
+        playButton.classList.remove('hide');
+        playButton.classList.add('show');
+        pauseButton.classList.remove('show');
+        pauseButton.classList.add('hide');
       }
-    }
-
-    function handlePlay(buttonId) {
-      var button = document.getElementById(buttonId);
-      button.classList.add('playing');
-    }
-
-    function handlePause(buttonId) {
-      var button = document.getElementById(buttonId);
-      button.classList.remove('playing');
     }
   </script>
 </body>
 </html>
+
+
